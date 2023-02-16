@@ -60,10 +60,10 @@ has_one: buyer
 
 
 # buyers テーブル(購入管理)
-| Column            | Type       | Options     |
-| ----------------- | ---------- | ----------- |
-| item              | references | null:false  |
-| user              | references | null: false |
+| Column            | Type       | Options                       |
+| ----------------- | ---------- | ----------------------------- |
+| item              | references | null:false   foreign_key: true|
+| user              | references | null: false  foreign_key: true|
 
 # アソシエーション
 belongs_to: item
