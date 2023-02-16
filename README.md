@@ -40,7 +40,6 @@ Things you may want to cover:
 # アソシエーション
 has_many: items
 has_many: buyer
-has_many: shipping_address
 
 # items テーブル
 | Column                | Type       | Options                       |
@@ -49,44 +48,38 @@ has_many: shipping_address
 | discription           | text       | null: false                   | # 説明
 | category_id           | integer    | null: false                   | # カテゴリー
 | condition_id          | integer    | null: false                   | # 状態
-| price                 | string     | null: false                   | # 値段
+| price                 | integer    | null: false                   | # 値段
 | shipping_area_id      | integer    | null: false                   | # 発送地域
-| shipping_days_id      | integer    | null: false                   | # 発送までの日数
-| shipping_info         | text       | null: false                   | # 配送料負担の情報
-| user                  | references | null: false foreign_key: true |
+| shipping_day_id       | integer    | null: false                   | # 発送までの日数
+| shipping_info_id      | integer    | null: false                   | # 配送料負担の情報
 
 # アソシエーション
-belongs_to: user
+belongs_to: users
 belongs_to: buyer
-belongs_to: shipping_address
 
 
 # buyer テーブル(購入管理)
 | Column             | Type       | Options                       |
 | ------------------ | ---------- | ----------------------------- |
-| credit             | string     | null: false                   | # クレジット
 | items              | reference  | null:false  foreign_key: true |
-| user               | references | null: false foreign_key: true |
+| users              | references | null: false foreign_key: true |
 | shipping_address   | references | null: false foreign_key: true |
 
 # アソシエーション
-belongs_to: items
-belongs_to: user
-belongs_to: shipping_address
+has_one: items
+has_one: users
+has_one: shipping_address
 
 # shipping_address テーブル（配送先）
 
 | Column             | Type       | Options                       |
 | ------------------ | ---------- | ----------------------------- |
 | post_code          | string     | null: false                   | # 郵便番号
-| prefectures        | string     | null: false                   | # 都道府県
+| prefecture_id      | integer    | null: false                   | # 都道府県
 | municipalities     | string     | null: false                   | # 市区町村
 | address            | string     | null: false                   | # 番地
 | building           | string     |                               | # 建物名
 | telephone_number   | string     | null: false                   | # 電話番号
-| user               | references | foreign_key: true             |
 
 # アソシエーション
-belongs_to: user
-belongs_to: items
 belongs_to: buyer
