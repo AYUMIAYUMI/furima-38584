@@ -25,50 +25,68 @@ Things you may want to cover:
 
 # テーブル設計
 
-# user テーブル
-| Column             | Type   | Options                  |
-| ------------------ | ------ | ------------------------ |
-| nick_name          | string | null: false              |
-| email              | string | null: false unique: true |
-| encrypted_password | string | null: false              |
-| first_name         | string | null: false              |
-| second_name        | string | null: false              |
-| date_birth         | string | null: false              | # 生年月日
+# users テーブル
+| Column                    | Type   | Options                  |
+| ------------------------- | ------ | ------------------------ |
+| nick_name                 | string | null: false              |
+| email                     | string | null: false unique: true |
+| encrypted_password        | string | null: false              |
+| first_name_kannji         | string | null: false              |
+| second_name_kannji        | string | null: false              |
+| first_name_kana           | string | null: false              |
+| second_name_kana          | string | null: false              |
+| date_birth                | data   | null: false              | # 生年月日
 
 # アソシエーション
 has_many: items
 has_many: buyer
+has_many: shipping_address
 
 # items テーブル
-| Column             | Type       | Options           |
-| ------------------ | ---------- | ----------------- |
-| product_name       | string     | null: false       | # 商品名
-| image              | string     | null: false       | # 画像
-| discription        | text       | null: false       | # 説明
-| category           | string     | null: false       | # カテゴリー
-| condition          | string     | null: false       | # 状態
-| price              | string     | null: false       | # 値段
-| shipping_area      | string     | null: false       | # 発送地域
-| shipping_days      | string     | null: false       | # 発送までの日数
-| user               | references | foreign_key: true |
+| Column                | Type       | Options                       |
+| --------------------- | ---------- | ----------------------------- |
+| product_name          | string     | null: false                   | # 商品名
+| discription           | text       | null: false                   | # 説明
+| category_id           | integer    | null: false                   | # カテゴリー
+| condition_id          | integer    | null: false                   | # 状態
+| price                 | string     | null: false                   | # 値段
+| shipping_area_id      | integer    | null: false                   | # 発送地域
+| shipping_days_id      | integer    | null: false                   | # 発送までの日数
+| shipping_info         | text       | null: false                   | # 配送料負担の情報
+| user                  | references | null: false foreign_key: true |
 
 # アソシエーション
 belongs_to: user
 belongs_to: buyer
+belongs_to: shipping_address
 
 
-# buyer テーブル
+# buyer テーブル(購入管理)
 | Column             | Type       | Options                       |
 | ------------------ | ---------- | ----------------------------- |
 | credit             | string     | null: false                   | # クレジット
+| items              | reference  | null:false  foreign_key: true |
+| user               | references | null: false foreign_key: true |
+| shipping_address   | references | null: false foreign_key: true |
+
+# アソシエーション
+belongs_to: items
+belongs_to: user
+belongs_to: shipping_address
+
+# shipping_address テーブル（配送先）
+
+| Column             | Type       | Options                       |
+| ------------------ | ---------- | ----------------------------- |
 | post_code          | string     | null: false                   | # 郵便番号
 | prefectures        | string     | null: false                   | # 都道府県
 | municipalities     | string     | null: false                   | # 市区町村
 | address            | string     | null: false                   | # 番地
 | building           | string     |                               | # 建物名
 | telephone_number   | string     | null: false                   | # 電話番号
-| user               | references | null: false foreign_key: true |
+| user               | references | foreign_key: true             |
 
 # アソシエーション
-belongs_to: items
 belongs_to: user
+belongs_to: items
+belongs_to: buyer
