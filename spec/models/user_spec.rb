@@ -64,7 +64,7 @@ RSpec.describe User, type: :model do
         another_user = FactoryBot.build(:user)
         another_user.email = @user.email
         another_user.valid?
-        expect(another_user.errors.full_messages).to include
+        expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
       it 'emailは@を含まないと登録できない' do
         @user.email = 'testmail'
@@ -77,26 +77,43 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
-      it 'passwordは英語のみでは登録できない' do
+      it 'passwordは英字のみでは登録できない' do
         @user.password = 'aaaaaa'
         @user.password_confirmation = 'aaaaaa'
         @user.valid?
-        expect(@user.errors.full_messages).to include('Password is invalid')
+        expect(@user.errors.full_messages).to include('Password は半角英数を両方含む必要があります')
       end
       it 'passwordは数字のみでは登録できない' do
-        @user.password = '111111'
-        @user.password_confirmation = '111111'
-        expect(@user.errors.full_messages).to include
+        @user.password = '123456'
+        @user.password_confirmation = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password は半角英数を両方含む必要があります")
+      end
+      it 'passwordは全角文字だと登録できない' do
+        @user.password = '９９９ｚｚｚ'
+        @user.password_confirmation = '９９９ｚｚｚ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password は半角英数を両方含む必要があります')
       end
       it 'first_name_kannjiは数字では登録できない' do
         @user.first_name_kannji = '111111'
         @user.valid?
-        expect(@user.errors.full_messages).to include
+        expect(@user.errors.full_messages).to include('First name kannji は全角ひらがな、全角カタカナ、漢字で入力して下さい。')
+      end
+      it 'first_name_kannjiは半角文字では登録できない' do
+        @user.first_name_kannji = 'aaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kannji は全角ひらがな、全角カタカナ、漢字で入力して下さい。')
       end
       it 'second_name_kannjiは数字では登録できない' do
         @user.second_name_kannji = '123'
         @user.valid?
-        expect(@user.errors.full_messages).to include
+        expect(@user.errors.full_messages).to include('Second name kannji は全角ひらがな、全角カタカナ、漢字で入力して下さい。')
+      end
+      it 'second_name_kannjiは半角文字では登録できない' do
+        @user.second_name_kannji = 'aaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Second name kannji は全角ひらがな、全角カタカナ、漢字で入力して下さい。')
       end
       it 'first_name_kanaは漢字では登録できない' do
         @user.first_name_kana = '小山田'
