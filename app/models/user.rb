@@ -13,6 +13,6 @@ class User < ApplicationRecord
    validates :second_name_kana, presence: true, format: { with: /\A[\p{katakana}\p{blank}ー－]+\z/, message: 'はカタカナで入力して下さい。' }
    validates :date_birth, presence: true
 
-  # has_many :items
+   has_many :items
   # has_many :buyers
 end
