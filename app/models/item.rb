@@ -1,5 +1,9 @@
 class Item < ApplicationRecord
 
+  belongs_to: user
+  has_one_attached :image
+ # has_one: buye
+
   validates :product_name,     presence: true
   validates :discription,      presence: true
   validates :category_id,      presence: true
@@ -11,7 +15,5 @@ class Item < ApplicationRecord
   validates :shipping_info_id,  presence: true
   validates :image,             presence: true
 
-   belongs_to: user
-  # has_one: buyer
 
 end
