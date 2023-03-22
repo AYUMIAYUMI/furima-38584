@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root to: "items#index"
   get 'users/new' => 'users#new'
+  post 'items/new' => 'items#new'
 
   
 end
