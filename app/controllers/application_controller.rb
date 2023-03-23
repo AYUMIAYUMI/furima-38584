@@ -1,10 +1,9 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!  # ログインしていないときは最初にリグイン画面が表示されるメソッド
+  # before_action :authenticate_user!  # ログインしていないときは最初にリグイン画面が表示されるメソッド
   before_action :basic_auth
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def create
-  end
+
 
   private
 
