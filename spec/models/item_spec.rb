@@ -29,27 +29,27 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Discription can't be blank")
       end
       it 'category_idが空だと出品できない' do
-        @item.category_id = ''
+        @item.category_id = '---'
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
       it 'condition_idが空だと出品できない' do
-        @item.condition_id = ''
+        @item.condition_id = '---'
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
       it 'shipping_info_idが空だと出品できない' do
-        @item.shipping_info_id = ''
+        @item.shipping_info_id = '---'
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping info can't be blank")
       end
       it 'shipping_area_idが空だとと出品できない' do
-        @item.shipping_area_id = ''
+        @item.shipping_area_id = '---'
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping area can't be blank")
       end
       it 'shipping_day_id が空だと出品できない' do
-        @item.shipping_day_id = ''
+        @item.shipping_day_id = '---'
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping day can't be blank")
       end
@@ -87,6 +87,11 @@ RSpec.describe Item, type: :model do
         @item.price = '10000000'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
+      end
+      it 'userが紐付いていなければ保存できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end

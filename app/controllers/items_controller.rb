@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :move_to_signed_in, except: [:index]
 
   def index
-    @items = Item.order('created_at DESC')
+  #  @items = Item.order('created_at DESC') 一覧表示機能で実装する内容のため現段階ではコメントアウト
   end
 
   def new
