@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   before do
     @user = FactoryBot.build(:user)
-
   end
 
   describe 'ユーザー新規登録' do
@@ -88,7 +87,7 @@ RSpec.describe User, type: :model do
         @user.password = '123456'
         @user.password_confirmation = '123456'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password は半角英数を両方含む必要があります")
+        expect(@user.errors.full_messages).to include('Password は半角英数を両方含む必要があります')
       end
       it 'passwordは全角文字だと登録できない' do
         @user.password = '９９９ｚｚｚ'
