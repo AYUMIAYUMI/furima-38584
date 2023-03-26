@@ -11,7 +11,7 @@ class CreateItem < ActiveRecord::Migration[6.0]
       t.integer :shipping_info_id,   null: false
       
 
-
+      t.timestamps
     end
   end
 end
