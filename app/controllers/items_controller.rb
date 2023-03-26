@@ -2,8 +2,8 @@ class ItemsController < ApplicationController
   before_action :move_to_signed_in, except: [:index]
 
   def index
-    @items = Item.order('created_at DESC')# created_atは、作成された日時なので 降順 DESC で新しい投稿が上にくるようにできる
-    @items = Item.all
+   @items = Item.order('created_at DESC')
+
   end
 
   def new
