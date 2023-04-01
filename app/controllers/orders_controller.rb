@@ -1,7 +1,10 @@
 class OrdersController < ApplicationController
 
   def index
-    @item = Item.find_by(params[:item_id])
+    @item = Item.find(params[:item_id])
+    if current_user.id == @item.user_id
+      redirect_to root_path
+    end
   end
 
   def new
@@ -11,11 +14,14 @@ class OrdersController < ApplicationController
   def create
   end
 
-end
 
 
-private
 
-def order_params
-  params.require(:order).merge(user_id: current_user.id, item_id: params[:item_id])
+  private
+
+  def order_params
+    params.require(:order).merge(user_id: current_user.id, item_id: params[:item_id])
+  end
+
+
 end
