@@ -14,7 +14,7 @@ class BuyerForm
   end
 
   def save
-    buyer = Buyer.create(user_id: user_id, item_id: item_id)
+    buyer = Buyer.create(user_id: user_id, item_id: @item.id)
 
     ShippingAddress.create(post_code: post_code, shipping_area_id: shipping_area_id, municipalities: municipalities, address: address, telephone_number: telephone_number, buyer_id: buyer_id)
   end

@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   def index
     @item = Item.find(params[:item_id])
-    @buyer_form = BuyerForm.new(buyer_params)#エラー解消追加１
+    @buyer_form = BuyerForm.new(buyer_params)
     if current_user.id == @item.user_id
       redirect_to root_path
     end
@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
 
 
   def create
+    @item = Item.find(params[:item_id])
     @buyer_form = BuyerForm.new(buyer_params)
     if @buyer_form.valid?
       @buyer_form.save
@@ -37,6 +38,6 @@ class OrdersController < ApplicationController
   end
 
   def buyer_params
-    params.permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number, :buyer_id).merge(user_id: current_user.id, item_id: @item.id)#itemとbuyer_idは曖昧
+    params.permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id)#itemとbuyer_idは曖昧
   end
 end
