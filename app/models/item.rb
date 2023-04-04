@@ -19,5 +19,5 @@ class Item < ApplicationRecord
   belongs_to :shipping_day
   belongs_to :user
   has_one_attached :image
-  #has_one: buyer
+  has_one :buyer
 end

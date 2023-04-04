@@ -1,25 +1,24 @@
 class BuyerForm
   include ActiveModel::Model
-  attr_accessor :item, :user, :post_code, :shipping_area_id, :municipalities, :address, :building, :telephone_number
+  attr_accessor :post_code, :shipping_area_id, :municipalities, :address, :building, :telephone_number, :buyer_id, :item_id, :user_id
 
-  validates :item,             presence: true
-  validates :user,             presence: true
-  validates :post_code,        presence: true, format: {with: /\A\d{3}[-]\d{2}\z/}
-  validates :shipping_area_id, presence: true
-  validates :municipalities,   presence: true
-  validates :address,          presence: true
-  validates :telephone_number, presence: true, format: {with: /\A\d{10,11}\z/}
+  with_options presence: true do
+    validates :post_code, format: {with: /\A\d{3}[-]\d{2}\z/, message: "error"}
+    validates :shipping_area_id, numericality: { other_than: 1, message: "can't be blank" }
+    validates :municipalities
+    validates :address
+    validates :telephone_number, format: {with: /\A\d{10,11}\z/, message: "error"}
+    validates :buyer_id
+    validates :user_id
+    validates :item_id
+  end
 
   def save
-    Buyer.create(item)
-    Buyer.create(user)
+    buyer = Buyer.create(user_id: user_id, item_id: item_id)
 
-    ShippingAddress.create(post_code: post_code)
-    ShippingAddress.create(shipping_area_id: shipping_area_id)
-    ShippingAddress.create( municipalities: municipalities)
-    ShippingAddress.create(address: address)
-    ShippingAddress.create(building: building)
-    ShippingAddress.create(telephone_number: telephone_number)
+    ShippingAddress.create(post_code: post_code, shipping_area_id: shipping_area_id, municipalities: municipalities, address: address, telephone_number: telephone_number, buyer_id: buyer_id)
   end
+
+
   
 end

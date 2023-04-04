@@ -1,25 +1,22 @@
 class OrdersController < ApplicationController
-  before_action :move_to_signed_in, except: [:new, :create]
+  before_action :move_to_signed_in, except: [:create]
 
   def index
     @item = Item.find(params[:item_id])
+    @buyer_form = BuyerForm.new(buyer_params)#エラー解消追加１
     if current_user.id == @item.user_id
       redirect_to root_path
     end
   end
 
-  def new
-    @item = Item.new
-  end
 
   def create
-    @buyer = BuyerForm.new(set_params)
-    if @buyer.valid?
-      @buyer.save
+    @buyer_form = BuyerForm.new(buyer_params)
+    if @buyer_form.valid?
+      @buyer_form.save
       redirect_to root_path
     else
-      redirect_to item_orders_url
-
+      render :index
     end
   end
 
@@ -39,7 +36,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def set_params
-    params.permit(:item, :user, :post_code, :shipping_area_id, :municipalities, :address, :building, :telephone_number)
+  def buyer_params
+    params.permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number, :buyer_id).merge(user_id: current_user.id, item_id: @item.id)#itemとbuyer_idは曖昧
   end
 end

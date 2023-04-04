@@ -6,9 +6,8 @@ Rails.application.routes.draw do
 
 
   resources :items do
-    resources :orders, only: [:index, :new, :create]
+    resources :orders, only: [:index, :create]
   end
-
 
   root to: "items#index"
   get 'users/new' => 'users#new'
