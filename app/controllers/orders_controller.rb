@@ -1,14 +1,19 @@
 class OrdersController < ApplicationController
   before_action :move_to_signed_in, except: [:create]
 
+
+
   def index
     @item = Item.find(params[:item_id])
-    @buyer_form = BuyerForm.new(buyer_params)
+    @buyer_form = BuyerForm.new
     if current_user.id == @item.user_id
       redirect_to root_path
     end
   end
 
+  def new
+    @buyer = Buyer.new
+  end
 
   def create
     @item = Item.find(params[:item_id])
@@ -27,9 +32,7 @@ class OrdersController < ApplicationController
 
   private
 
-  def order_params
-    params.require(:order).merge(user_id: current_user.id, item_id: params[:item_id])
-  end
+  
 
   def move_to_signed_in
     unless user_signed_in?
@@ -37,7 +40,10 @@ class OrdersController < ApplicationController
     end
   end
 
+  
+
   def buyer_params
-    params.permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id)#itemとbuyer_idは曖昧
+    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id, buyer_id: @buyer.id)
   end
+
 end
