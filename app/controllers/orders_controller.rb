@@ -11,9 +11,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def new
-    @buyer = Buyer.new
-  end
+
 
   def create
     @item = Item.find(params[:item_id])
@@ -43,7 +41,6 @@ class OrdersController < ApplicationController
   
 
   def buyer_params
-    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id, buyer_id: @buyer.id)
+    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id)
   end
-
 end
