@@ -38,7 +38,7 @@ RSpec.describe BuyerForm, type: :model do
       it "addressが空だと購入できない" do
         @buyer_form.address = ''
         @buyer_form.valid?
-        expect(@buyer_form.errors.full_messages).to include()
+        expect(@buyer_form.errors.full_messages).to include("Address can't be blank")
       end
       it "telephone_numberが空だと購入できない" do
         @buyer_form.telephone_number = ''
