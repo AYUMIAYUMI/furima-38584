@@ -12,7 +12,6 @@ class OrdersController < ApplicationController
   end
 
 
-
   def create
     @item = Item.find(params[:item_id])
     @buyer_form = BuyerForm.new(buyer_params)
