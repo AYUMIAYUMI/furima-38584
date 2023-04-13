@@ -1,6 +1,6 @@
 class BuyerForm
   include ActiveModel::Model
-  attr_accessor :post_code, :shipping_area_id, :municipalities, :address, :building, :telephone_number, :buyer_id, :item_id, :user_id
+  attr_accessor :post_code, :shipping_area_id, :municipalities, :address, :building, :telephone_number, :item_id, :user_id
  
 
 
@@ -10,14 +10,13 @@ class BuyerForm
     validates :municipalities
     validates :address
     validates :telephone_number, format: {with: /\A\d{10,11}\z/}
-    validates :buyer_id
-    #validates :user_id
-    #validates :item_id
+    validates :user_id
+    validates :item_id
   end
   def save
-    buyer= Buyer.create(user_id: user_id, item_id: @item.id)
+    buyer= Buyer.create(user_id: user_id, item_id: item_id)
 
-    ShippingAddress.create(post_code: post_code, shipping_area_id: shipping_area_id, municipalities: municipalities, address: address, telephone_number: telephone_number, buyer: buyer_id)
+    ShippingAddress.create(post_code: post_code, shipping_area_id: shipping_area_id, municipalities: municipalities, address: address, telephone_number: telephone_number, buyer_id: buyer.id)
   end
 
 

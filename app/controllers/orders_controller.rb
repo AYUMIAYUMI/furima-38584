@@ -40,6 +40,6 @@ class OrdersController < ApplicationController
   
 
   def buyer_params
-    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id)
+    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :building, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id)
   end
 end
