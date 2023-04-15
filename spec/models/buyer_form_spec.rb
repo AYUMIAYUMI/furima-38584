@@ -20,6 +20,11 @@ RSpec.describe BuyerForm, type: :model do
     end
 
     context '商品購入できない場合' do
+      it "tokenが空では登録できないこと" do
+        @buyer_form.token = nil
+        @buyer_form.valid?
+        expect(@buyer_form.errors.full_messages).to include("Token can't be blank")
+      end
       it "post_codeが空だと購入できない" do
         @buyer_form.post_code = ''
         @buyer_form.valid?

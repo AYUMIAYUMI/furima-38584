@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
     @item = Item.find(params[:item_id])
     @buyer_form = BuyerForm.new(buyer_params)
     if @buyer_form.valid?
+      pay_item
       @buyer_form.save
       redirect_to root_path
     else
@@ -23,7 +24,14 @@ class OrdersController < ApplicationController
     end
   end
 
-
+    def pay_item
+      Payjp.api_key =  ENV["PAYJP_SECRET_KEY"] # 自身のPAY.JPテスト秘密鍵を記述しましょう
+      Payjp::Charge.create(
+        amount: @item.price,
+        card: buyer_params[:token],    # カードトークン
+        currency: 'jpy'                 # 通貨の種類（日本円）
+      )
+    end
 
 
 
@@ -40,6 +48,6 @@ class OrdersController < ApplicationController
   
 
   def buyer_params
-    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :building, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id)
+    params.require(:buyer_form).permit(:post_code, :shipping_area_id, :municipalities, :building, :address, :telephone_number).merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
   end
 end

@@ -6,6 +6,7 @@ FactoryBot.define do
     municipalities {'青山1-1-1'}
     telephone_number {'09012345678'}
     building {'青山ビル'}
+    token {"tok_abcdefghijk00000000000000000"}
 
     association :buyer
   end
