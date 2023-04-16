@@ -1,10 +1,9 @@
 class OrdersController < ApplicationController
   before_action :move_to_signed_in, except: [:create]
-
+  before_action :set_item, only: [:index, :create]
 
 
   def index
-    @item = Item.find(params[:item_id])
     @buyer_form = BuyerForm.new
     if current_user.id == @item.user_id || @item.buyer.present?
       redirect_to root_path
@@ -13,7 +12,6 @@ class OrdersController < ApplicationController
 
 
   def create
-    @item = Item.find(params[:item_id])
     @buyer_form = BuyerForm.new(buyer_params)
     if @buyer_form.valid?
       pay_item
@@ -37,7 +35,10 @@ class OrdersController < ApplicationController
 
   private
 
-  
+  def set_item
+    @item = Item.find(params[:item_id])
+   end
+   
 
   def move_to_signed_in
     unless user_signed_in?
