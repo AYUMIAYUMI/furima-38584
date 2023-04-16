@@ -33,7 +33,7 @@ RSpec.describe BuyerForm, type: :model do
       it "shipping_area_idが空だと購入できない" do
         @buyer_form.shipping_area_id = '___'
         @buyer_form.valid?
-        expect(@buyer_form.errors.full_messages).to include("Shipping area can't be blank")
+        expect(@buyer_form.errors.full_messages).to include("Shipping area is not a number")
       end
       it "municipalitiesが空だと購入できない" do
         @buyer_form.municipalities = ''
