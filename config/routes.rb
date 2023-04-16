@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   resources :items
   resources :users, only: [:create]
 
+  resources :items do
+    resources :orders, only: [:index, :create,]
+  end
+
   root to: "items#index"
   get 'users/new' => 'users#new'
   post 'items/new' => 'items#new'
