@@ -8,6 +8,9 @@ FactoryBot.define do
     building {'青山ビル'}
     token {"tok_abcdefghijk00000000000000000"}
 
-    association :buyer
+
+    association :user_id
+    association :item_id
+
   end
 end

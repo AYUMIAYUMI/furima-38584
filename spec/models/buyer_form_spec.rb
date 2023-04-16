@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe BuyerForm, type: :model do
   describe '商品購入機能' do
     before do
-      user = FactoryBot.create(:user)
-      item = FactoryBot.create(:item)
-      @buyer_form = FactoryBot.build(:buyer_form, buyer_id: user.id, buyer_id: item.id)
+      @user = FactoryBot.create(:user)
+      @item = FactoryBot.create(:item)
+      @buyer_form = FactoryBot.build(:buyer_form, user_id: @user.id, item_id: @item.id)
       sleep 0.1
     end
 
@@ -126,14 +126,14 @@ RSpec.describe BuyerForm, type: :model do
         expect(@buyer_form.errors.full_messages).to include("Telephone number is invalid")
       end
       it 'userが紐付いていないと保存できないこと' do
-        @buyer_form.buyer_id = nil
+        @buyer_form.user_id = nil
         @buyer_form.valid?
-        expect(@buyer_form.errors.full_messages).to include("Buyer can't be blank")
+        expect(@buyer_form.errors.full_messages).to include("User can't be blank")
       end
       it 'itemが紐付いていないと保存できないこと' do
-          @buyer_form.buyer_id = nil
+          @buyer_form.item_id = nil
           @buyer_form.valid?
-          expect(@buyer_form.errors.full_messages).to include("Buyer can't be blank")
+          expect(@buyer_form.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
