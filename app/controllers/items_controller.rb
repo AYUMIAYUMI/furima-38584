@@ -17,20 +17,19 @@ class ItemsController < ApplicationController
     else
       render :new
     end
-
   end
 
   def show
   end
 
   def edit
-    if @item.user_id != current_user.id || @item.buyer.present?
-      redirect_to root_path
-    end
+    return unless @item.user_id != current_user.id || @item.buyer.present?
+
+    redirect_to root_path
   end
 
   def update
-    if  @item.update(item_params)
+    if @item.update(item_params)
       redirect_to item_path
     else
       render :edit
@@ -38,12 +37,9 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    if current_user.id == @item.user_id
-      @item.destroy
-    end
+    @item.destroy if current_user.id == @item.user_id
     redirect_to root_path
   end
-
 
   private
 
