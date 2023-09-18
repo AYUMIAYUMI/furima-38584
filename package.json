@@ -11,6 +11,11 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.11.1"
   }
+}
+
+"scripts": {
+  "build": "webpack --config your-webpack-config.js"
 }
